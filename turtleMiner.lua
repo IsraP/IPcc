@@ -130,7 +130,7 @@ while true do
         ChunkSize = size
         CanKeepGoing = true
 
-        rednet.broadcast("Understood, boss. Mining a " .. size .. "x" .. size .. " area")
+        rednet.broadcast("Understood, boss. Mining a " .. size .. "x" .. size .. " area", "digGreeting")
 
         local status = DoDig()
 
