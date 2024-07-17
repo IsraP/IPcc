@@ -80,7 +80,7 @@ function Move()
         BlocksWalked = 0
         RowsCompleted = RowsCompleted + 1
 
-        if RowsCompleted - 1 == ChunkSize then
+        if tonumber(RowsCompleted) == (tonumber(ChunkSize) - 1) then
             DescendToNextLayer()
         end
     end
