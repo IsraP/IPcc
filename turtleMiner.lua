@@ -63,6 +63,8 @@ function Move()
         turtle.forward()
         BlocksWalked = BlocksWalked + 1
     else
+        rednet.broadcast("Turning! " .. FacingRight, "digStatus")
+
         if FacingRight then
             turtle.turnRight()
             if turtle.detect() then turtle.dig() end
@@ -80,6 +82,7 @@ function Move()
         BlocksWalked = 0
         RowsCompleted = RowsCompleted + 1
         
+        rednet.broadcast("Current Values:  " .. RowsCompleted .. " " .. ChunkSize, "digStatus")
         if RowsCompleted == ChunkSize then
             DescendToNextLayer()
         end
