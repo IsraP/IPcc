@@ -89,7 +89,7 @@ end
 function DescendToNextLayer()
     turtle.digDown()
     turtle.down()
-    
+
     BlocksWalked = 0
     RowsCompleted = 0
     FacingRight = true
@@ -129,6 +129,8 @@ while true do
         FacingRight = true
         ChunkSize = size
         CanKeepGoing = true
+
+        rednet.broadcast("Understood, boss. Mining a " .. size .. "x" .. size .. " area")
 
         local status = DoDig()
 
