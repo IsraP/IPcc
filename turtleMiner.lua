@@ -59,27 +59,42 @@ function CheckForFuel()
 end
 
 function Move()
-    turtle.forward()
-    BlocksWalked = BlocksWalked + 1
-
-    local mustResetBlocks = false
-
-    if BlocksWalked == ChunkSize - 1
-    then
-        turtle.turnRight()
-        mustResetBlocks = true
-    end
-
-    if BlocksWalked == BlocksForDescend
-    then
-        turtle.digDown()
-        turtle.down()
-    end
-
-    if mustResetBlocks
-    then BlocksWalked = 0
+    if BlocksWalked < ChunkSize - 1 then
+        turtle.forward()
+        BlocksWalked = BlocksWalked + 1
+    else
+        if FacingRight then
+            turtle.turnRight()
+            if turtle.detect() then turtle.dig() end
+            turtle.forward()
+            if turtle.detect() then turtle.dig() end
+            turtle.turnRight()
+        else
+            turtle.turnLeft()
+            if turtle.detect() then turtle.dig() end
+            turtle.forward()
+            if turtle.detect() then turtle.dig() end
+            turtle.turnLeft()
+        end
+        FacingRight = not FacingRight
+        BlocksWalked = 0
+        RowsCompleted = RowsCompleted + 1
+        
+        if RowsCompleted == ChunkSize then
+            DescendToNextLayer()
+        end
     end
 end
+
+function DescendToNextLayer()
+    turtle.digDown()
+    turtle.down()
+    
+    BlocksWalked = 0
+    RowsCompleted = 0
+    FacingRight = true
+end
+
 
 function DoDig()
     while turtle.getFuelLevel() ~= 0 and CanKeepGoing do
@@ -109,10 +124,11 @@ while true do
     local senderID, size, protocol = rednet.receive("dig")
 
     if protocol == "dig" and size then
-        ChunkSize = size
-        BlocksForDescend = ChunkSize * ChunkSize
-        CanKeepGoing = true
         BlocksWalked = 0
+        RowsCompleted = 0
+        FacingRight = true
+        ChunkSize = size
+        CanKeepGoing = true
 
         local status = DoDig()
 
