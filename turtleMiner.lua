@@ -79,9 +79,8 @@ function Move()
         FacingRight = not FacingRight
         BlocksWalked = 0
         RowsCompleted = RowsCompleted + 1
-        
-        rednet.broadcast("Current Values:  " .. RowsCompleted .. " " .. ChunkSize, "digStatus")
-        if RowsCompleted == ChunkSize then
+
+        if RowsCompleted - 1 == ChunkSize then
             DescendToNextLayer()
         end
     end
@@ -128,7 +127,7 @@ while true do
         BlocksWalked = 0
         RowsCompleted = 0
         FacingRight = true
-        ChunkSize = size
+        ChunkSize = tonumber(size)
         CanKeepGoing = true
 
         rednet.broadcast("Understood, boss. Mining a " .. size .. "x" .. size .. " area", "digGreeting")
