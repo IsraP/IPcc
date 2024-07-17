@@ -63,8 +63,6 @@ function Move()
         turtle.forward()
         BlocksWalked = BlocksWalked + 1
     else
-        rednet.broadcast("Turning! " .. FacingRight, "digStatus")
-
         if FacingRight then
             turtle.turnRight()
             if turtle.detect() then turtle.dig() end
