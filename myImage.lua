@@ -1,6 +1,6 @@
 -- Generated with sanjuuni
 
-local monitor peripheral.wrap("left")
+local monitor = peripheral.wrap("left")
 
 local function displayImage()
     local image, palette = {
