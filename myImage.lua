@@ -1,3 +1,5 @@
+-- Generated with sanjuuni
+-- https://sanjuuni.madefor.cc
 do
     local image, palette = {
         {
@@ -2684,20 +2686,22 @@ do
         {0.047059, 0.027451, 0.015686},
     }
     
-    monitor = peripheral.wrap("left")
-
-    monitor.clear()
-    for i = 0, #palette do monitor.setPaletteColor(2^i, table.unpack(palette[i])) end
+    local mon = peripheral.find("monitor")
+    mon.setTextScale(0.5)
+    term.redirect(mon)
+    
+    term.clear()
+    for i = 0, #palette do term.setPaletteColor(2^i, table.unpack(palette[i])) end
     for y, r in ipairs(image) do
-        monitor.setCursorPos(1, y)
-        monitor.blit(table.unpack(r))
+        term.setCursorPos(1, y)
+        term.blit(table.unpack(r))
     end
     end
     sleep(0.04)
     read()
-    for i = 0, 15 do monitor.setPaletteColor(2^i, monitor.nativePaletteColor(2^i)) end
-    monitor.setBackgroundColor(colors.black)
-    monitor.setTextColor(colors.white)
-    monitor.setCursorPos(1, 1)
-    -- monitor.clear()
+    for i = 0, 15 do term.setPaletteColor(2^i, term.nativePaletteColor(2^i)) end
+    term.setBackgroundColor(colors.black)
+    term.setTextColor(colors.white)
+    term.setCursorPos(1, 1)
+    term.clear()
     
