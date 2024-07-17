@@ -1,2 +1,2 @@
 # IPcc
-Computer Craft scripts just for fun
+Some Computer Craft scripts just for fun
