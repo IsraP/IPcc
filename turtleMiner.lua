@@ -39,6 +39,9 @@ function CheckForSpace()
         end
     end
 
+    turtle.select(2)
+    turtle.dig()
+
     return true
 end
 
@@ -59,30 +62,42 @@ function CheckForFuel()
 end
 
 function Move()
-    if BlocksWalked < ChunkSize - 1 then
+    if BlocksWalked < ChunkSize then
         turtle.forward()
         BlocksWalked = BlocksWalked + 1
     else
+        RowsCompleted = RowsCompleted + 1
+        if tonumber(RowsCompleted) == tonumber(ChunkSize) then
+            DescendToNextLayer()
+            Descending = true
+        end
+        
+        BlocksWalked = 0
+
         if FacingRight then
             turtle.turnRight()
             if turtle.detect() then turtle.dig() end
-            turtle.forward()
+
+            if not Descending
+            then turtle.forward()
+            end
+
             turtle.turnRight()
             if turtle.detect() then turtle.dig() end
         else
             turtle.turnLeft()
             if turtle.detect() then turtle.dig() end
-            turtle.forward()
+
+            if not Descending
+            then turtle.forward()
+            end
+
             turtle.turnLeft()
             if turtle.detect() then turtle.dig() end
         end
-        FacingRight = not FacingRight
-        BlocksWalked = 0
-        RowsCompleted = RowsCompleted + 1
 
-        if tonumber(RowsCompleted) == (tonumber(ChunkSize) - 1) then
-            DescendToNextLayer()
-        end
+        FacingRight = not FacingRight
+        Descending = false
     end
 end
 
@@ -90,7 +105,7 @@ function DescendToNextLayer()
     turtle.digDown()
     turtle.down()
 
-    BlocksWalked = -1
+    BlocksWalked = 0
     RowsCompleted = 0
     FacingRight = not FacingRight
 end
@@ -129,6 +144,7 @@ while true do
         FacingRight = true
         ChunkSize = tonumber(size)
         CanKeepGoing = true
+        Descending = false
 
         rednet.broadcast("Understood, boss. Mining a " .. size .. "x" .. size .. " area", "digGreeting")
 
