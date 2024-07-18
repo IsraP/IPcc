@@ -27,12 +27,13 @@ function CheckForSpace()
     end
 
     turtle.select(2)
-    turtle.place()
+    turtle.digDown()
+    turtle.placeDown()
 
     for slot = 3, 16 do
         turtle.select(slot)
 
-        local result = turtle.drop()
+        local result = turtle.dropDown()
 
         if result == false
         then return false
@@ -40,7 +41,7 @@ function CheckForSpace()
     end
 
     turtle.select(2)
-    turtle.dig()
+    turtle.digDown()
 
     return true
 end
