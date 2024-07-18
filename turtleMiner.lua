@@ -67,14 +67,14 @@ function Move()
             turtle.turnRight()
             if turtle.detect() then turtle.dig() end
             turtle.forward()
-            if turtle.detect() then turtle.dig() end
             turtle.turnRight()
+            if turtle.detect() then turtle.dig() end
         else
             turtle.turnLeft()
             if turtle.detect() then turtle.dig() end
             turtle.forward()
-            if turtle.detect() then turtle.dig() end
             turtle.turnLeft()
+            if turtle.detect() then turtle.dig() end
         end
         FacingRight = not FacingRight
         BlocksWalked = 0
@@ -90,9 +90,9 @@ function DescendToNextLayer()
     turtle.digDown()
     turtle.down()
 
-    BlocksWalked = 0
+    BlocksWalked = -1
     RowsCompleted = 0
-    FacingRight = true
+    FacingRight = not FacingRight
 end
 
 
